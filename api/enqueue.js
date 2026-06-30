@@ -19,7 +19,7 @@ export default async function handler(req, res) {
     console.log("[Producer API] Enqueueing event...");
     
     // Adiciona o evento na fila usando o método correto do SDK v0.3.1
-    await send({ queue: "test_queue", payload: testPayload });
+    await send("test_queue", testPayload);
 
     return res.status(200).json({ 
       success: true, 
