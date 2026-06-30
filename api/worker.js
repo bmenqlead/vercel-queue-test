@@ -1,6 +1,6 @@
-import { handleCallback } from '@vercel/queue';
+import { handleNodeCallback } from '@vercel/queue';
 
-export default handleCallback(async (payload, metadata) => {
+export default handleNodeCallback(async (payload, metadata) => {
   const topic = metadata.topic || "test_queue";
 
   console.log(`[QueueWorker API] Received event from queue: ${topic} (Message ID: ${metadata.messageId})`);
