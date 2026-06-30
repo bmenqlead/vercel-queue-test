@@ -1,4 +1,6 @@
-import { send } from "@vercel/queue";
+import { QueueClient } from "@vercel/queue";
+
+const queue = new QueueClient({ deploymentId: null });
 
 export default async function handler(req, res) {
   // Configura os cabeçalhos para permitir chamadas do navegador (CORS básico)
@@ -9,22 +11,28 @@ export default async function handler(req, res) {
     return res.status(200).end();
   }
 
-  const testPayload = {
-    message: "This is a test event from the API!",
-    timestamp: Date.now(),
-    source: "pure-nodejs-microservice"
-  };
+  // Pega o corpo da requisição (se for POST do React Router)
+  // Se não vier nada (ex: acesso direto pelo navegador), usa um payload padrão.
+  let payloadDinamico = req.body;
+
+  if (!payloadDinamico || Object.keys(payloadDinamico || {}).length === 0) {
+    payloadDinamico = {
+      message: "This is a fallback test event (No POST body provided)",
+      timestamp: Date.now(),
+      source: "pure-nodejs-microservice"
+    };
+  }
 
   try {
-    console.log("[Producer API] Enqueueing event...");
+    console.log("[Producer API] Enqueueing event with payload:", payloadDinamico);
 
-    // Adiciona o evento na fila usando o método send global
-    await send("test_queue", testPayload);
+    // Adiciona o evento na fila passando o payload dinâmico
+    await queue.send("test_queue", payloadDinamico);
 
     return res.status(200).json({
       success: true,
       message: "Event successfully sent to Vercel Queues via API endpoint!",
-      payload: testPayload
+      payload: payloadDinamico
     });
 
   } catch (error) {
