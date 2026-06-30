@@ -1,6 +1,6 @@
 {
   "functions": {
-    "api/queue.js": {
+    "api/worker.js": {
       "experimentalTriggers": [
         {
           "type": "queue/v2beta",
