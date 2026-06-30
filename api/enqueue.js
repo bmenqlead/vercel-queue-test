@@ -1,6 +1,4 @@
-import { QueueClient } from "@vercel/queue";
-
-const queue = new QueueClient({ deploymentId: null });
+import { send } from "@vercel/queue";
 
 export default async function handler(req, res) {
   // Configura os cabeçalhos para permitir chamadas do navegador (CORS básico)
@@ -27,7 +25,7 @@ export default async function handler(req, res) {
     console.log("[Producer API] Enqueueing event with payload:", payloadDinamico);
 
     // Adiciona o evento na fila passando o payload dinâmico
-    await queue.send("test_queue", payloadDinamico);
+    await send("test_queue", payloadDinamico);
 
     return res.status(200).json({
       success: true,
