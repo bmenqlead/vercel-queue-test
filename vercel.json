@@ -1,14 +1,4 @@
 {
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/static-build"
-    },
-    {
-      "src": "api/queue.js",
-      "use": "@vercel/node"
-    }
-  ],
   "functions": {
     "api/queue.js": {
       "experimentalTriggers": [
