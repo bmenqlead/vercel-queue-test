@@ -3,6 +3,6 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@vercel/queue": "^1.0.1"
+    "@vercel/queue": "^0.3.1"
   }
 }
