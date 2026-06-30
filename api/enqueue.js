@@ -1,4 +1,4 @@
-import { enqueue } from "@vercel/queue";
+import { send } from "@vercel/queue";
 
 export default async function handler(req, res) {
   // Configura os cabeçalhos para permitir chamadas do navegador (CORS básico)
@@ -18,8 +18,8 @@ export default async function handler(req, res) {
   try {
     console.log("[Producer API] Enqueueing event...");
     
-    // Adiciona o evento na fila
-    await enqueue("test_queue", testPayload);
+    // Adiciona o evento na fila usando o método correto do SDK v0.3.1
+    await send({ queue: "test_queue", payload: testPayload });
 
     return res.status(200).json({ 
       success: true, 
